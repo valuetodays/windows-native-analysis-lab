@@ -1,5 +1,8 @@
-# windows-native-analysis-lab
-Windows 用户态程序观察、分析与实验能力建设项目。 A personal laboratory for exploring Windows user-mode programs.
+# Windows Native Analysis Lab
+
+Windows 用户态程序观察、分析与实验能力建设项目。
+
+A personal laboratory for exploring Windows user-mode programs.
 
 
 通过 C++ 实验程序、x64dbg 调试分析以及 Windows API 知识地图，
@@ -23,6 +26,7 @@ Windows 用户态程序观察、分析与实验能力建设项目。 A personal 
 | 项目 | 版本/工具 |
 | --- | --- |
 | 操作系统 | Windows 10 / Windows 11 |
+| 目标架构 | x86-64 |
 | 编程语言 | C++ |
 | 编译器 | MinGW-w64 (GCC) |
 | 工具链 | [w64devkit](https://github.com/skeeto/w64devkit/releases) 2.9.1 |
@@ -81,7 +85,8 @@ file demo.exe
 Windows 下也可以使用：
 
 ``` bash
-objdump
+objdump -f demo.exe
+objdump -p demo.exe
 ```
 
 查看 PE 信息。
