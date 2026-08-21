@@ -67,3 +67,35 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+
+# Demo output
+bin/
+obj/
+out/
+
+# Windows debug symbols
+*.dbg
+*.map
+*.dmp
+
+# x64dbg
+*.udd
+*.dd32
+*.dd64
+*.tag
+*.xdb
+
+# Windows system files
+Thumbs.db
+Desktop.ini
+
+# IDE compatibility
+.vs/
+.vscode/
+.idea/
+
+# MinGW/GCC
+*.gcda
+*.gcno
+*.gcov
