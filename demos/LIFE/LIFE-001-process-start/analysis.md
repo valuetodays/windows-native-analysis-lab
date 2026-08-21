@@ -115,13 +115,21 @@ VA:
 Address Information
 
 ```
-Preferred ImageBase:  (PE Header)
+Preferred ImageBase: 本次实验未记录（PE Header）
 
-Loaded Base: (x64dbg Modules)
+Loaded Base: 0x7FF71AF80000（x64dbg Modules）
 
 EntryPoint RVA: 0x1440
 
-EntryPoint VA: Loaded Base + RVA
+EntryPoint VA: 0x7FF71AF81440
+```
+
+计算关系：
+
+```text
+EntryPoint VA = Loaded Base + EntryPoint RVA
+                  0x7FF71AF80000 + 0x1440
+                = 0x7FF71AF81440
 ```
 
 因此：
