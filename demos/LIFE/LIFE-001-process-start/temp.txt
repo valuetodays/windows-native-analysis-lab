@@ -1,0 +1,166 @@
+
+## 启动阶段观察
+
+程序加载后，x64dbg 初始停留于：
+
+ntdll.dll
+
+LdrpInitializeProcess
+
+说明：
+
+Windows Loader 正在执行进程初始化。
+
+该位置由调试器加载流程触发，并非程序代码主动调用。
+
+
+## 第一个默认断点
+
+程序初次加载时，x64dbg 停留在 ntdll.dll 的 LdrpInitializeProcess 附近，这是 Windows Loader 初始化进程阶段。
+
+
+LdrpInitializeProcess 是什么？
+```
+Ldr
+ |
+ Loader
+
+
+p
+ |
+ private/internal
+
+
+InitializeProcess
+ |
+ 初始化进程
+```
+
+Windows Loader 初始化进程内部环境。
+
+
+它负责：
+
+- 加载 DLL
+- 初始化模块
+- TLS
+- 运行初始化代码
+
+
+## Loaded Modules
+
+程序启动后加载以下模块：
+
+- LIFE-001-process-start.exe
+- ntdll.dll
+- kernel32.dll
+- KernelBase.dll
+- user32.dll
+- gdi32.dll
+- ucrtbase.dll
+- msvcrt.dll
+
+说明：
+
+Windows 用户态程序运行时，
+除了自身 EXE 外，还依赖多个系统 DLL。
+
+程序并不是独立运行。
+
+
+## EntryPoint → main() → MessageBoxW
+
+### LIFE-001 调用链
+
+```text
+ntdll.dll
+    |
+    | LdrpInitializeProcess
+    |
+    v
+
+PE EntryPoint
+0x7FF71AF81440
+
+    |
+    | MinGW CRT startup
+    |
+    v
+
+main()
+0x7FF71AF81490
+
+    |
+    | call MessageBoxW
+    |
+    v
+
+user32.dll!MessageBoxW
+```
+
+### Function Identification
+
+在 PE EntryPoint 后，
+观察到典型函数序言：
+
+push rbp
+mov rbp,rsp
+sub rsp,20
+
+随后出现 MessageBoxW 调用，
+参数通过 RCX/RDX/R8/R9 传递。
+
+根据调用行为判断，
+该函数对应源码中的 main()。
+
+
+
+
+## 扩展
+
+### ntdll.dll
+
+ntdll.dll 里的 NT 来源于 New Technology（Windows NT）
+
+Windows NT 系统提供的底层用户态 DLL。
+
+NTFS = New Technology File System。FAT16/FAT32
+
+> Windows NT 使用的新技术文件系统。
+
+
+### Windows x64 调用约定
+
+```cpp
+MessageBoxW(
+    nullptr,
+    L"Hello Windows Native Lab",
+    L"LIFE-001",
+    MB_OK
+);
+```
+
+| 参数  | 寄存器 |
+| --- | --- |
+| 第1个 | RCX |
+| 第2个 | RDX |
+| 第3个 | R8  |
+| 第4个 | R9  |
+
+### IAT（Import Address Table，导入地址表）
+
+是 call qword ptr ds:[<MessageBoxW>]
+而不是 call user32.MessageBoxW
+原因：PE 使用 IAT（Import Address Table，导入地址表）。
+
+
+### Symbol
+
+x64dbg configured with Microsoft Symbol Server.
+
+MinGW generated executable does not provide PDB symbols.
+Function identification performed by:
+
+- API call
+- string reference
+- control flow
