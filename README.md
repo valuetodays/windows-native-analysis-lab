@@ -14,6 +14,108 @@ Windows 用户态程序观察、分析与实验能力建设项目。 A personal 
 - 掌握调试与逆向分析基础能力
 - 探索 DLL、Hook 等程序扩展技术
 
+## 开发环境
+
+当前实验基准环境使用 w64devkit 提供的 MinGW-w64 GCC 工具链。
+
+当前推荐开发环境：
+
+| 项目 | 版本/工具 |
+| --- | --- |
+| 操作系统 | Windows 10 / Windows 11 |
+| 编程语言 | C++ |
+| 编译器 | MinGW-w64 (GCC) |
+| 工具链 | [w64devkit](https://github.com/skeeto/w64devkit/releases) 2.9.1 |
+| 调试工具 | x64dbg |
+| 编辑器 | 任意文本编辑器（推荐 Notepad++/VS Code） |
+
+
+## 编译器说明
+
+项目初期不依赖 Visual Studio 工程文件。
+
+实验程序采用：
+
+-   标准 C++ 源文件
+-   命令行编译
+-   独立 Demo 目录
+
+原因：
+
+-   保持实验程序简单
+-   减少 IDE 隐藏行为
+-   方便观察最终生成的 PE 文件
+-   更贴近 Windows 程序分析流程
+
+## 编译方式
+
+示例：
+
+``` bash
+g++ main.cpp -g -O0 -Wall -o demo.exe
+```
+
+参数说明：
+
+  参数      说明
+  --------- --------------------------------
+  `-g`      生成调试信息，方便 x64dbg 分析
+  `-O0`     关闭优化，保持代码结构清晰
+  `-Wall`   开启编译警告
+  `-o`      指定输出文件
+
+## 编译验证
+
+查看编译器版本：
+
+``` bash
+g++ --version
+```
+
+查看生成文件：
+
+``` bash
+file demo.exe
+```
+
+Windows 下也可以使用：
+
+``` bash
+objdump
+```
+
+查看 PE 信息。
+
+## 编译原则
+
+学习阶段遵循：
+
+    源码
+
+    ↓
+
+    命令行编译
+
+    ↓
+
+    生成 EXE
+
+    ↓
+
+    x64dbg 分析
+
+    ↓
+
+    记录实验报告
+
+暂不引入：
+
+-   CMake
+-   vcpkg
+-   Visual Studio 工程管理
+
+后续进入大型 Demo 或 DLL / Hook 阶段时再考虑。
+
 
 ## 文档
 
