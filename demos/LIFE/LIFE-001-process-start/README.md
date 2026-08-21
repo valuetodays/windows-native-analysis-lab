@@ -31,4 +31,3 @@ x64dbg:
 
 - EntryPoint
 - main
-- ExitProcess

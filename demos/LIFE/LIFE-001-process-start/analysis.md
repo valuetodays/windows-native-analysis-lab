@@ -51,7 +51,7 @@ int main()
 
 实验目标：
 
-通过一个最小 GUI 程序，观察从 EXE 加载到调用 Windows API 的完整流程。
+最小 Windows 用户态程序，通过调用 MessageBoxW 展示 Win32 API 行为。
 
 ---
 
@@ -59,17 +59,10 @@ int main()
 
 ![Loader Initial Break](screenshots/00-loader-initial-break.png)
 
-程序加载后，x64dbg 初始停留于：
 
-```
-ntdll.dll
-```
+本次实验环境中，x64dbg 系统断点停留在 ntdll.dll Loader 初始化路径附近。
 
-函数：
-
-```
-LdrpInitializeProcess
-```
+当前符号解析显示为：LdrpInitializeProcess，该函数属于 Windows 内部实现，不同系统版本可能不同。
 
 说明：
 
@@ -119,16 +112,16 @@ VA:
 0x7FF71AF81440
 ```
 
-ImageBase:
+Address Information
 
 ```
-0x7FF71AF80000
-```
+Preferred ImageBase:  (PE Header)
 
-EntryPoint RVA:
+Loaded Base: (x64dbg Modules)
 
-```
-0x1440
+EntryPoint RVA: 0x1440
+
+EntryPoint VA: Loaded Base + RVA
 ```
 
 因此：
@@ -173,7 +166,7 @@ Windows API
 
 ![String Reference](screenshots/03-string-reference.png)
 
-由于 MinGW-w64 生成程序未提供 PDB 符号，x64dbg 未显示源码函数名称。
+x64dbg 未加载 PDB 格式源码符号，因此未显示源码函数名称。
 
 通过行为分析识别函数：
 
@@ -283,7 +276,7 @@ IAT 是 DLL Hook、API Hook 的基础。
 
 x64dbg 已配置 Microsoft Symbol Server。
 
-MinGW-w64 生成程序不提供 PDB 符号。
+x64dbg 未加载 PDB 格式源码符号，因此未显示源码函数名称（真实环境中exe文件中一般都不会提供源码函数名称）。
 
 因此函数识别采用：
 
@@ -345,3 +338,14 @@ user32.dll!MessageBoxW
 - user32.dll 成功显示窗口
 
 证明 LIFE-001 实验链路完整。
+
+
+## 14. Evidence Level
+
+本实验分析依据：
+
+1. Source code
+2. PE/runtime observation
+3. x64dbg dynamic observation
+
+结论根据证据推断。
