@@ -1,0 +1,15 @@
+D:\ws\git-github\windows-native-analysis-lab\demos\LIFE\LIFE-002-windows-subsystem>objdump -p LIFE-002-windows-subsystem-release.exe | findstr /i subsystem
+LIFE-002-windows-subsystem-release.exe:     file format pei-x86-64
+MajorSubsystemVersion   5
+MinorSubsystemVersion   2
+Subsystem               00000002        (Windows GUI)
+
+D:\ws\git-github\windows-native-analysis-lab\demos\LIFE\LIFE-002-windows-subsystem>
+
+
+D:\ws\git-github\windows-native-analysis-lab\demos\LIFE\LIFE-001-process-start>objdump -p LIFE-001-process-start-release.exe | findstr /i subsystem
+MajorSubsystemVersion   5
+MinorSubsystemVersion   2
+Subsystem               00000003        (Windows CUI)
+
+D:\ws\git-github\windows-native-analysis-lab\demos\LIFE\LIFE-001-process-start>
