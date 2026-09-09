@@ -30,9 +30,13 @@ A personal laboratory for exploring Windows user-mode programs.
 | 编程语言 | C++ |
 | 编译器 | MinGW-w64 (GCC) |
 | 工具链 | [w64devkit](https://github.com/skeeto/w64devkit/releases) 2.9.1 |
-| 调试工具 | x64dbg |
+| 调试工具 | [x64dbg](https://github.com/x64dbg/x64dbg/releases) |
 | 编辑器 | 任意文本编辑器（推荐 Notepad++/VS Code） |
 
+其它资源
+
+- https://github.com/therealdreg/DbgChild/releases  
+- https://github.com/NationalSecurityAgency/ghidra/releases
 
 ## 编译器说明
 
